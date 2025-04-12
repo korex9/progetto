@@ -1,0 +1,1 @@
+Categoria: nando; prezzo: 100; uscita.
