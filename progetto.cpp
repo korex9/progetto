@@ -9,6 +9,8 @@ struct Spesa
 {
     string descrizione;
     float prezzo;
+    string negro;
+    string nando;
 };
 
 
@@ -25,7 +27,7 @@ void richiestaProdotto(){
     ofstream file(nomeFile);
 
     if (!file) {
-        cerr << "Errore nell'apertura del file." << endl;
+        cout<< "Errore nell'apertura del file." << endl;
         return;
     }
 
