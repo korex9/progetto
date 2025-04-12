@@ -3,8 +3,19 @@
 #include <cstdlib>
 #include <ctime>
 
-
 using namespace std;
+
+struct Spesa
+{
+    string descrizione;
+    float prezzo;
+};
+
+
+void richiestaProdotto(){
+
+}
+
 
 int main(){
     cout<<"Sei negro";
