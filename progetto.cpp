@@ -9,8 +9,6 @@ struct Spesa
 {
     string descrizione;
     float prezzo;
-    string negro;
-    string nando;
 };
 
 
