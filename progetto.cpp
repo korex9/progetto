@@ -21,8 +21,7 @@ int main(){
     return 0;
 }
 
-void richiestaProdotto(){
-    Spesa spesa;
+void richiestaProdotto(Spesa spesa){
     string nomeFile = "spese.txt";
     ofstream file(nomeFile);
 
@@ -32,12 +31,12 @@ void richiestaProdotto(){
     }
 
     cout << "Inserisci la descrizione della spesa: ";
-    cin >> spesa.descrizione;
+    cin >> spesa.categoria;
 
     cout << "Inserisci il prezzo della spesa: ";
     cin >> spesa.prezzo;
 
-    file << spesa.descrizione << " " << spesa.prezzo << endl;
+    file << spesa.categoria << " " << spesa.prezzo << endl;
 
     file.close();
 }
