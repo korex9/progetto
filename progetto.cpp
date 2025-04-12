@@ -22,7 +22,7 @@ int main(){
 void richiestaProdotto(){
     Spesa spesa;
     string nomeFile = "spese.txt";
-    ofstream file(nomeFile, ios::app);
+    ofstream file(nomeFile);
 
     if (!file) {
         cout<< "Errore nell'apertura del file." << endl;
