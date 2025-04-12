@@ -6,6 +6,6 @@
 using namespace std;
 
 int main(){
-
+    cout<<"Piovesan basta sei un heigui"<<endl;
     return 0;
 }
