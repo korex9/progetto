@@ -7,8 +7,10 @@ using namespace std;
 
 struct Spesa
 {
-    string descrizione;
+    string categoria;
     float prezzo;
+    bool entrata;
+    bool uscita;
 };
 
 
