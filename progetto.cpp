@@ -15,8 +15,10 @@ struct Spesa
 void inserimentoProdoto();
 void menu (int s);
 void fSwitch (int s);
-void stampaEU ()
+void stampaEU ();
 
+void richiestaProdotto();
+void salvaFile(string nomeFile);
 
 int main(){
     int scelta=0;
@@ -68,7 +70,7 @@ void inserimentoProdoto(){
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; uscita." << endl;
     else if(spesa.entrata)
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
-
+        salvaFile(nomeFile);
     file.close();
 }
 
@@ -110,5 +112,12 @@ void fSwitch (int s){
     
     default:
         break;
+    }
+}
+void salvaFile(string nomeFile){
+    string testoFile;
+    ifstream file(nomeFile);
+    while(getline(file, testoFile)){
+        cout<<testoFile;
     }
 }
