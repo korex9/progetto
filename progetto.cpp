@@ -12,16 +12,26 @@ struct Spesa
 };
 
 
-void richiestaProdotto();
+void inserimentoProdoto();
+void menu (int s);
+void fSwitch (int s);
+void stampaEU ()
+
 
 int main(){
+    int scelta=0;
 
-    richiestaProdotto ();
+    do{
+        menu (scelta);
+        fSwitch(scelta);
+    }while(scelta!=0);
+
+    
 
     return 0;
 }
 
-void richiestaProdotto(){
+void inserimentoProdoto(){
     Spesa spesa;
     string nomeFile = "spese.txt";
     ofstream file(nomeFile);
@@ -60,4 +70,45 @@ void richiestaProdotto(){
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
 
     file.close();
+}
+
+void menu (int s){
+
+    cout<<"Inserire un numero per effetuare un'operazione: "<<endl;
+    cout<<"1- Inserimento di un prodotto."<<endl;
+    cout<<"2- Stampa delle entrate e delle uscite mensili."<<endl;
+    cout<<"3- Stampa differenza tra entrate e uscite mensili."<<endl;
+    cout<<"4- Stampa delle entrate e delle uscite mensili di una categoria."<<endl;
+    cout<<"5- Stampa differenza tra entrate e uscite mensili di una categoria."<<endl;
+    cout<<"6- Stampa della percentuale delle entrate e uscite di una categoria."<<endl;
+    cout<<"0- Esci."<<endl;
+    cin>>s;
+}
+
+void fSwitch (int s){
+
+    switch (s)
+    {
+    case 1:
+        inserimentoProdoto ();
+        break;
+    case 2:
+        inserimentoProdoto ();
+        break;
+    case 3:
+        inserimentoProdoto ();
+        break;
+    case 4:
+        inserimentoProdoto ();
+        break;
+    case 5:
+        inserimentoProdoto ();
+        break;
+    case 6:
+        inserimentoProdoto ();
+        break;
+    
+    default:
+        break;
+    }
 }
