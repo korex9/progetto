@@ -11,14 +11,13 @@ struct Spesa
     bool uscita;
 };
 
-
 void inserimentoProdoto();
 void menu (int s);
 void fSwitch (int s);
 void stampaEU ();
 
-void richiestaProdotto();
-void salvaFile(string nomeFile);
+void richiestaProdotto(string oldFile);
+void salvaFile(string nomeFile, string oldFile);
 
 int main(){
     int scelta=0;
@@ -28,12 +27,13 @@ int main(){
         fSwitch(scelta);
     }while(scelta!=0);
 
-    
+    string oldFile = "speseOld.txt";
+    richiestaProdotto(oldFile);
 
     return 0;
 }
 
-void inserimentoProdoto(){
+void richiestaProdotto(string oldFile){
     Spesa spesa;
     string nomeFile = "spese.txt";
     ofstream file(nomeFile);
@@ -45,7 +45,7 @@ void inserimentoProdoto(){
     }
 
     cout << "Inserisci la categoria della spesa: ";
-    cin >> spesa.categoria;
+    getline(cin, spesa.categoria);
 
     cout << "Inserisci il prezzo della spesa: ";
     cin >> spesa.prezzo;
@@ -70,7 +70,9 @@ void inserimentoProdoto(){
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; uscita." << endl;
     else if(spesa.entrata)
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
-        salvaFile(nomeFile);
+
+    salvaFile(nomeFile, oldFile);
+
     file.close();
 }
 
@@ -115,10 +117,23 @@ void fSwitch (int s){
     }
 }
 
-void salvaFile(string nomeFile){
-    string testoFile;
+void salvaFile(string nomeFile, string oldFile) {
     ifstream file(nomeFile);
-    while(getline(file, testoFile)){
-        cout<<testoFile;
+    ofstream oldFileStream(oldFile);
+    string line, oldLine;
+
+    if (!file || !oldFileStream) {
+        cout<< "Errore nell'apertura del file." << endl;
+        return;
     }
+
+    while (getline(file, oldLine)) {
+        getline(file, line);
+        oldFileStream << oldLine << endl << line << endl;
+    }
+
+    file.close();
+    oldFileStream.close();
+
+    cout << "File salvato correttamente in " << oldFile << endl;
 }
