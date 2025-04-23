@@ -114,6 +114,7 @@ void fSwitch (int s){
         break;
     }
 }
+
 void salvaFile(string nomeFile){
     string testoFile;
     ifstream file(nomeFile);
