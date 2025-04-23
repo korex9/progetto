@@ -13,6 +13,7 @@ struct Spesa
 
 
 void richiestaProdotto();
+void salvaFile(string nomeFile);
 
 int main(){
 
@@ -58,6 +59,14 @@ void richiestaProdotto(){
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; uscita." << endl;
     else if(spesa.entrata)
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
-
+        salvaFile(nomeFile);
     file.close();
+}
+
+void salvaFile(string nomeFile){
+    string testoFile;
+    ifstream file(nomeFile);
+    while(getline(file, testoFile)){
+        cout<<testoFile;
+    }
 }
