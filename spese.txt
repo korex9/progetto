@@ -1,1 +1,1 @@
-Categoria: niger; prezzo: 180; uscita.
+Categoria: Alimentari; prezzo: 10.99; uscita.
