@@ -14,7 +14,7 @@ struct Spesa
 void menu (int &s); //menù per le scelte
 void fSwitch (int s, string oldFile, Spesa &spesa); //funzione con lo switch
 void richiestaProdotto(string oldFile, Spesa &spesa);
-void stampaEU (Spesa &spesa);
+void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
 void salvaFile(string nomeFile, string oldFile);
 
 int main(){
