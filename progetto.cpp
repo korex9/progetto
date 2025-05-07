@@ -12,27 +12,28 @@ struct Spesa
 };
 
 void menu (int &s); //menù per le scelte
-void fSwitch (int s, string oldFile, Spesa &spesa); //funzione con lo switch
-void richiestaProdotto(string oldFile, Spesa &spesa);
+void fSwitch (int s, Spesa &spesa); //funzione con lo switch
+void richiestaProdotto(Spesa &spesa);
 void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
-void salvaFile(string nomeFile, string oldFile);
+  
 
 int main(){
+    ofstream file("spese.txt", ios::app);
     Spesa spesa;
     int scelta=0;
     string oldFile = "speseOld.txt";
 
     do{
         menu (scelta);
-        fSwitch(scelta, oldFile, spesa);
+        fSwitch(scelta, spesa);
     }while(scelta!=0);
 
     return 0;
 }
 
-void richiestaProdotto(string oldFile, Spesa &spesa){
+void richiestaProdotto(Spesa &spesa){
     string nomeFile = "spese.txt";
-    ofstream file(nomeFile);
+    ofstream file(nomeFile, ios::app);
     char s;
 
     if (!file) {
@@ -68,7 +69,6 @@ void richiestaProdotto(string oldFile, Spesa &spesa){
     else if(spesa.entrata)
         file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
 
-    salvaFile(nomeFile, oldFile);
 
     file.close();
 }
@@ -88,12 +88,12 @@ void menu (int &s){
     cout<<endl;
 }
 
-void fSwitch (int s, string oldFile, Spesa &spesa){
+void fSwitch (int s, Spesa &spesa){
 
     switch (s)
     {
     case 1:
-        richiestaProdotto(oldFile, spesa);
+        richiestaProdotto(spesa);
         break;
     case 2:
         stampaEU (spesa);
@@ -116,28 +116,7 @@ void fSwitch (int s, string oldFile, Spesa &spesa){
     }
 }
 
-void salvaFile(string nomeFile, string oldFile) {
-    ifstream file(nomeFile);
-    ofstream oldFileStream(oldFile);
-    string line, oldLine;
 
-    cout<<endl;
-
-    if (!file || !oldFileStream) {
-        cout<< "Errore nell'apertura del file." << endl;
-        return;
-    }
-
-    while (getline(file, oldLine)) {
-        getline(file, line);
-        oldFileStream << oldLine << endl << line << endl;
-    }
-
-    file.close();
-    oldFileStream.close();
-
-    cout << "File salvato correttamente in " << oldFile << endl;
-}
 
 void stampaEU (Spesa &spesa){
 

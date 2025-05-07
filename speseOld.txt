@@ -1,2 +1,2 @@
-Categoria: Alimentari; prezzo: 10.99; uscita.
+Categoria: Vendita; prezzo: 100; entrata.
 
