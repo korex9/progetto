@@ -119,6 +119,7 @@ void fSwitch (int s, Spesa &spesa){
 
 
 void stampaEU (Spesa &spesa){
+    ifstream MyReadFile("spese.txt");
 
     cout<<"Il totale delle entrate ammonta a: "<<endl;
     if(spesa.entrata){
