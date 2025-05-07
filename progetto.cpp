@@ -25,10 +25,8 @@ void stampaDifferenzaEUCat (double diff); //stampa differenza entrate e uscite
   
 
 int main(){
-    ofstream file("spese.txt", ios::app);
     Spesa spesa;
     int scelta=0;
-    string oldFile = "speseOld.txt";
 
     do{
         menu (scelta);
