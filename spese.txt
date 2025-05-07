@@ -1,2 +1,2 @@
 Categoria: Vendita; prezzo: 100; entrata.
-Categoria: Dio; prezzo: 2; uscita.
+
