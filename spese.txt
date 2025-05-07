@@ -1,10 +1,2 @@
 Categoria: Vendita; prezzo: 100; entrata.
-Categoria: Dio; prezzo: 2; uscita.
-Categoria: Brandon ; prezzo: 100; entrata.
-Categoria: Alimentari; prezzo: 100; uscita.
-Categoria: Alimentari; prezzo: 50; uscita.
-Categoria: Alimentari; prezzo: 50; uscita.
-Categoria: Alimentari; prezzo: 50; uscita.
-Categoria: Alimentari; prezzo: 50; entrata.
-Categoria: Alimentari; prezzo: 50; entrata.
-Categoria: nando; prezzo: 1.21201e+51; uscita.
+
