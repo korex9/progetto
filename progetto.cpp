@@ -22,8 +22,6 @@ void stampaDifferenzaEU (double diff); //stampa differenza entrate e uscite
 void stampaEUCat (Spesa &spesa); //stampa entrate e uscite per categoria
 double differenzaEUCat (Spesa &spesa, string cat); //fa la differenza tra entrate e uscite di una categoria
 void stampaDifferenzaEUCat (double diff, string cat); //stampa differenza entrate e uscite
-  
-
 int main(){
     Spesa spesa;
     int scelta=0;
@@ -118,12 +116,11 @@ void fSwitch (int s, Spesa &spesa){
         stampaDifferenzaEUCat (diff, categoria);
         break;
     case 6:
-        
         break;
+
     case 7:
 
         break;
-    
     default:
         break;
     }
@@ -131,25 +128,84 @@ void fSwitch (int s, Spesa &spesa){
 
 
 
-void stampaEU (Spesa &spesa){
-    ifstream MyReadFile("spese.txt");
-
-    cout<<"Il totale delle entrate ammonta a: "<<endl;
-    if(spesa.entrata){
-        cout<<spesa.prezzo;
+void stampaEU(Spesa &spesa) {
+    ifstream file("spese.txt");
+    if (!file) {
+        cout << "Errore nell'aprire il file per la lettura." << endl;
+        return;
     }
-    cout<<" euro."<<endl;
 
-    cout<<"Il totale delle uscite ammonta a: "<<endl;
-    if(spesa.uscita){
-        cout<<spesa.prezzo;
+    string riga;
+    double totaleEntrate = 0, totaleUscite = 0;
+
+    while (getline(file, riga)) {
+        int pos = -1;
+
+        // Cerca "prezzo: " a mano
+        for (int i = 0; i < riga.length() - 7; i++) {
+            if (riga[i] == 'p' &&
+                riga[i+1] == 'r' &&
+                riga[i+2] == 'e' &&
+                riga[i+3] == 'z' &&
+                riga[i+4] == 'z' &&
+                riga[i+5] == 'o' &&
+                riga[i+6] == ':' &&
+                riga[i+7] == ' ') {
+                pos = i + 8;
+                break;
+            }
+        }
+
+        if (pos == -1)
+            continue;
+
+        // Legge i caratteri del numero
+        string numero = "";
+        while (pos < riga.length() && riga[pos] != ';' && riga[pos] != ' ') {
+            numero += riga[pos];
+            pos++;
+        }
+
+        double prezzo = atof(numero.c_str());
+
+        // Verifica se la riga finisce con "entrata." o "uscita." a mano
+        int len = riga.length();
+        if (len >= 8 &&
+            riga[len - 8] == 'e' &&
+            riga[len - 7] == 'n' &&
+            riga[len - 6] == 't' &&
+            riga[len - 5] == 'r' &&
+            riga[len - 4] == 'a' &&
+            riga[len - 3] == 't' &&
+            riga[len - 2] == 'a' &&
+            riga[len - 1] == '.') {
+            totaleEntrate += prezzo;
+        } else if (len >= 8 &&
+                   riga[len - 8] == 'u' &&
+                   riga[len - 7] == 's' &&
+                   riga[len - 6] == 'c' &&
+                   riga[len - 5] == 'i' &&
+                   riga[len - 4] == 't' &&
+                   riga[len - 3] == 'a' &&
+                   riga[len - 2] == '.' &&
+                   riga[len - 1] == '\0') {
+            totaleUscite += prezzo;
+        } else if (len >= 7 &&
+                   riga[len - 7] == 'u' &&
+                   riga[len - 6] == 's' &&
+                   riga[len - 5] == 'c' &&
+                   riga[len - 4] == 'i' &&
+                   riga[len - 3] == 't' &&
+                   riga[len - 2] == 'a' &&
+                   riga[len - 1] == '.') {
+            totaleUscite += prezzo;
+        }
     }
-    cout<<" euro."<<endl;
 
-    cout<<endl;
-    
-
+    cout << "Il totale delle entrate ammonta a: " << totaleEntrate << " euro." << endl;
+    cout << "Il totale delle uscite ammonta a: " << totaleUscite << " euro." << endl;
 }
+
 
 double differenzaEU (Spesa &spesa){
     double entrate=0, uscite=0, diff=0;
@@ -158,11 +214,11 @@ double differenzaEU (Spesa &spesa){
         entrate+=spesa.prezzo;
     else if(spesa.uscita)
         uscite+=spesa.prezzo;
-    
+
     diff=entrate-uscite;
 
 
-    
+
 
     return diff;
 }

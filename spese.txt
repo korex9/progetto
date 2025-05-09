@@ -1,2 +1,2 @@
-Categoria: Vendita; prezzo: 100; entrata.
-
+Categoria: affitto; prezzo: 800; uscita.
+Categoria: busta paga; prezzo: 1200; entrata.
