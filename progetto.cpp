@@ -80,13 +80,14 @@ void richiestaProdotto(Spesa &spesa){
 
 void menu (int &s){
 
-    cout<<endl<<"-----GESTORE DI SPESE PERSONALI-----"<<endl;
+    cout<<endl<<"-----GESTORE DI FINANZA PERSONALE-----"<<endl;
     cout<<"1- Inserimento di un prodotto."<<endl;
     cout<<"2- Stampa delle entrate e delle uscite"<<endl;
     cout<<"3- Stampa differenza tra entrate e uscite"<<endl;
     cout<<"4- Stampa delle entrate e delle uscite di una categoria."<<endl;
     cout<<"5- Stampa differenza tra entrate e uscite di una categoria."<<endl;
     cout<<"6- Stampa della percentuale delle entrate e uscite di una categoria."<<endl;
+    cout<<"7- Reset del file di testo."<<endl;
     cout<<"0- Esci."<<endl;
     cout<<"Inserire un numero per effetuare un'operazione: ";
     cin>>s;
@@ -118,6 +119,9 @@ void fSwitch (int s, Spesa &spesa){
         break;
     case 6:
         
+        break;
+    case 7:
+
         break;
     
     default:
