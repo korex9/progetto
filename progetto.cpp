@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-
-
+#include <string>
+#include <ctype.h>
 
 using namespace std;
 
@@ -18,6 +18,7 @@ void fSwitch (int s, Spesa &spesa); //funzione con lo switch
 void richiestaProdotto(Spesa &spesa);
 void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
 void stampaEUCat (Spesa &spesa); //stampa entrate e uscite per categoria
+void portaMaiuscolo (char &lettera);
 int main(){
     Spesa spesa;
     int scelta=0;
@@ -54,6 +55,7 @@ void richiestaProdotto(Spesa &spesa){
     do{
         cout << "Inserisci 'U' se la spesa e' un'uscita oppure 'E' se è un'entrata: ";
         cin >> s;
+        portaMaiuscolo (s);
         if (s!='U' && s!='E')
             cout << "Inserimento errato...riprova!"<<endl;
     }while (s!='U' && s!='E');
@@ -120,7 +122,8 @@ void fSwitch (int s, Spesa &spesa){
         //reset
         break;
     default:
-        cout<<"Inserimento errato...riprova."<<endl;
+        if(s!=0)
+            cout<<"Inserimento errato...riprova."<<endl;
         break;
     }
 }
@@ -230,5 +233,9 @@ void stampaEUCat (Spesa &spesa){
     cout<<endl;
 }
 
+void portaMaiuscolo (char &lettera){
+    if(islower(lettera))
+        lettera=toupper(lettera);
+}
 
 
