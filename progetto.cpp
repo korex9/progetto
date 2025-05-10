@@ -17,11 +17,7 @@ void menu (int &s); //menù per le scelte
 void fSwitch (int s, Spesa &spesa); //funzione con lo switch
 void richiestaProdotto(Spesa &spesa);
 void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
-double differenzaEU (Spesa &spesa); //fa la differenza tra entrate e uscite
-void stampaDifferenzaEU (double diff); //stampa differenza entrate e uscite
 void stampaEUCat (Spesa &spesa); //stampa entrate e uscite per categoria
-double differenzaEUCat (Spesa &spesa, string cat); //fa la differenza tra entrate e uscite di una categoria
-void stampaDifferenzaEUCat (double diff, string cat); //stampa differenza entrate e uscite
 int main(){
     Spesa spesa;
     int scelta=0;
@@ -48,8 +44,12 @@ void richiestaProdotto(Spesa &spesa){
     cout << "Inserisci la categoria della spesa: ";
     getline(cin, spesa.categoria);
 
-    cout << "Inserisci il prezzo della spesa: ";
-    cin >> spesa.prezzo;
+    do{
+        cout << "Inserisci il prezzo della spesa: ";
+        cin>> spesa.prezzo;
+        if(spesa.prezzo<=0)
+            cout<<"Inserimento errato...riprova."<<endl;
+    }while(spesa.prezzo<=0);
 
     do{
         cout << "Inserisci 'U' se la spesa e' un'uscita oppure 'E' se è un'entrata: ";
@@ -79,12 +79,12 @@ void richiestaProdotto(Spesa &spesa){
 void menu (int &s){
 
     cout<<endl<<"-----GESTORE DI FINANZA PERSONALE-----"<<endl;
-    cout<<"1- Inserimento di un prodotto."<<endl;
-    cout<<"2- Stampa delle entrate e delle uscite"<<endl;
-    cout<<"3- Stampa differenza tra entrate e uscite"<<endl;
-    cout<<"4- Stampa delle entrate e delle uscite di una categoria."<<endl;
-    cout<<"5- Stampa differenza tra entrate e uscite di una categoria."<<endl;
-    cout<<"6- Stampa della percentuale delle entrate e uscite di una categoria."<<endl;
+    cout<<"1- Inserimento di un movimento finanziario."<<endl;
+    cout<<"2- Eliminazione di un movimento finanziario."<<endl;
+    cout<<"3- Cerca un movimento finanziario"<<endl;
+    cout<<"4- Stampa delle entrate e delle uscite"<<endl;
+    cout<<"5- Stampa delle entrate e delle uscite di una categoria."<<endl;
+    cout<<"6- Stampa della percentuale delle entrate e uscite generali."<<endl;
     cout<<"7- Reset del file di testo."<<endl;
     cout<<"0- Esci."<<endl;
     cout<<"Inserire un numero per effetuare un'operazione: ";
@@ -102,26 +102,25 @@ void fSwitch (int s, Spesa &spesa){
         richiestaProdotto(spesa);
         break;
     case 2:
-        stampaEU (spesa);
+        //eliminazione
         break;
     case 3:
-        diff=differenzaEU(spesa);
-        stampaDifferenzaEU(diff);
+        //ricerca
         break;
     case 4:
-        stampaEUCat (spesa);
+        stampaEU (spesa);
         break;
     case 5:
-        differenzaEUCat (spesa, categoria);
-        stampaDifferenzaEUCat (diff, categoria);
+        stampaEUCat (spesa);
         break;
     case 6:
+        //percentuale EU
         break;
-
     case 7:
-
+        //reset
         break;
     default:
+        cout<<"Inserimento errato...riprova."<<endl;
         break;
     }
 }
@@ -152,12 +151,12 @@ void stampaEU(Spesa &spesa) {
                 riga[i+6] == ':' &&
                 riga[i+7] == ' ') {
                 pos = i + 8;
-                break;
+                //break;
             }
         }
 
-        if (pos == -1)
-            continue;
+        /*if (pos == -1)
+            continue;*/
 
         // Legge i caratteri del numero
         string numero = "";
@@ -206,27 +205,6 @@ void stampaEU(Spesa &spesa) {
     cout << "Il totale delle uscite ammonta a: " << totaleUscite << " euro." << endl;
 }
 
-
-double differenzaEU (Spesa &spesa){
-    double entrate=0, uscite=0, diff=0;
-
-    if(spesa.entrata)
-        entrate+=spesa.prezzo;
-    else if(spesa.uscita)
-        uscite+=spesa.prezzo;
-
-    diff=entrate-uscite;
-
-
-
-
-    return diff;
-}
-
-void stampaDifferenzaEU (double diff){
-    cout<<"La differenza tra le entrate e le uscite è di: "<<diff<<" euro"<<endl;
-}
-
 void stampaEUCat (Spesa &spesa){
     string cat;
 
@@ -252,27 +230,5 @@ void stampaEUCat (Spesa &spesa){
     cout<<endl;
 }
 
-double differenzaEUCat (Spesa &spesa, string cat){
-    double entrate=0, uscite=0, diff=0;
-    
-    do{
-        cout<<"Inserisci il nome della categoria da cercare: ";
-        cin>>cat;
-        if(cat!=spesa.categoria)
-            cout<<"Inserimento errato...riprova."<<endl;
-    }while(cat!=spesa.categoria);
 
-    if(spesa.entrata)
-        entrate+=spesa.prezzo;
-    else if(spesa.uscita)
-        uscite+=spesa.prezzo;
-    
-    diff=entrate-uscite;    
-
-    return diff;
-}
-
-void stampaDifferenzaEUCat (double diff, string cat){
-    cout<<"La differenza tra le entrate e le uscite della categoria: "<<cat<<" è di: "<<diff<<" euro"<<endl;
-}
 
