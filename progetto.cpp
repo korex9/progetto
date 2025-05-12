@@ -18,7 +18,8 @@ void fSwitch (int s, Spesa &spesa); //funzione con lo switch
 void richiestaProdotto(Spesa &spesa);
 void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
 void stampaEUCat (Spesa &spesa); //stampa entrate e uscite per categoria
-void portaMaiuscolo (char &lettera);
+void portaMaiuscolo (char &lettera); //porta la lettera che indentifica il tipo in maiuscolo
+void eliminazione (Spesa &spesa); //eliminzione di una spesa
 int main(){
     Spesa spesa;
     int scelta=0;
@@ -29,53 +30,6 @@ int main(){
     }while(scelta!=0);
 
     return 0;
-}
-
-void richiestaProdotto(Spesa &spesa){
-    string nomeFile = "spese.txt";
-    ofstream file(nomeFile, ios::app);
-    char s;
-
-    if (!file) {
-        cout<< "Errore nell'apertura del file." << endl;
-        return;
-    }
-
-    cin.ignore();
-    cout << "Inserisci la categoria della spesa: ";
-    getline(cin, spesa.categoria);
-
-    do{
-        cout << "Inserisci il prezzo della spesa: ";
-        cin>> spesa.prezzo;
-        if(spesa.prezzo<=0)
-            cout<<"Inserimento errato...riprova."<<endl;
-    }while(spesa.prezzo<=0);
-
-    do{
-        cout << "Inserisci 'U' se la spesa e' un'uscita oppure 'E' se è un'entrata: ";
-        cin >> s;
-        portaMaiuscolo (s);
-        if (s!='U' && s!='E')
-            cout << "Inserimento errato...riprova!"<<endl;
-    }while (s!='U' && s!='E');
-
-    if(s=='U'){
-        spesa.uscita=true;
-        spesa.entrata=false;
-    }
-    else{
-        spesa.uscita=false;
-        spesa.entrata=true;
-    }
-
-    if(spesa.uscita)
-        file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; uscita." << endl;
-    else if(spesa.entrata)
-        file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
-
-
-    file.close();
 }
 
 void menu (int &s){
@@ -129,6 +83,56 @@ void fSwitch (int s, Spesa &spesa){
 }
 
 
+void richiestaProdotto(Spesa &spesa){
+    string nomeFile = "spese.txt";
+    ofstream file(nomeFile, ios::app);
+    char s;
+
+    if (!file) {
+        cout<< "Errore nell'apertura del file." << endl;
+        return;
+    }
+
+    cin.ignore();
+    cout << "Inserisci la categoria del movimento: ";
+    getline(cin, spesa.categoria);
+
+    do{
+        cout << "Inserisci il totale del movimento: ";
+        cin>> spesa.prezzo;
+        if(spesa.prezzo<=0)
+            cout<<"Inserimento errato...riprova."<<endl;
+    }while(spesa.prezzo<=0);
+
+    do{
+        cout << "Inserisci 'U' se il movimento e' un'uscita oppure 'E' se è un'entrata: ";
+        cin >> s;
+        portaMaiuscolo (s);
+        if (s!='U' && s!='E')
+            cout << "Inserimento errato...riprova!"<<endl;
+    }while (s!='U' && s!='E');
+
+    if(s=='U'){
+        spesa.uscita=true;
+        spesa.entrata=false;
+    }
+    else{
+        spesa.uscita=false;
+        spesa.entrata=true;
+    }
+
+    //scrive nel file
+    if(spesa.uscita)
+        file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; uscita." << endl;
+    else if(spesa.entrata)
+        file <<"Categoria: "<<spesa.categoria << "; prezzo: " << spesa.prezzo << "; entrata." << endl;
+
+
+    file.close();
+}
+
+
+
 
 void stampaEU(Spesa &spesa) {
     ifstream file("spese.txt");
@@ -154,12 +158,10 @@ void stampaEU(Spesa &spesa) {
                 riga[i+6] == ':' &&
                 riga[i+7] == ' ') {
                 pos = i + 8;
-                //break;
             }
         }
 
-        /*if (pos == -1)
-            continue;*/
+
 
         // Legge i caratteri del numero
         string numero = "";
@@ -238,4 +240,19 @@ void portaMaiuscolo (char &lettera){
         lettera=toupper(lettera);
 }
 
+void eliminazione (Spesa &spesa){
+    ifstream file("spese.txt");
+    if (!file) {
+        cout << "Errore nell'aprire il file per la lettura." << endl;
+        return;
+    }
 
+    string sceltaCat;
+    string riga;
+
+
+    do{
+        cout<<"Inserisci la categoria della spesa da eliminare: ";
+        getline(cin, sceltaCat);
+    }
+}
