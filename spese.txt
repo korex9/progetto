@@ -1,2 +1,0 @@
-Categoria: affitto; prezzo: 800; uscita.
-Categoria: busta paga; prezzo: 1200; entrata.

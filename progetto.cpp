@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <ctype.h>
+#include <cmath>
 
 using namespace std;
 
@@ -19,7 +20,8 @@ void richiestaProdotto(Spesa &spesa);
 void stampaEU (Spesa &spesa); //stampa totale entrata e uscite
 void stampaEUCat (Spesa &spesa); //stampa entrate e uscite per categoria
 void portaMaiuscolo (char &lettera); //porta la lettera che indentifica il tipo in maiuscolo
-void eliminazione (Spesa &spesa); //eliminzione di una spesa
+void eliminazione (Spesa &spesa); //eliminazione di una spesa
+//void ricerca (Spesa &spesa);
 int main(){
     Spesa spesa;
     int scelta=0;
@@ -58,7 +60,7 @@ void fSwitch (int s, Spesa &spesa){
         richiestaProdotto(spesa);
         break;
     case 2:
-        //eliminazione
+        eliminazione (spesa);
         break;
     case 3:
         //ricerca
@@ -105,7 +107,7 @@ void richiestaProdotto(Spesa &spesa){
     }while(spesa.prezzo<=0);
 
     do{
-        cout << "Inserisci 'U' se il movimento e' un'uscita oppure 'E' se è un'entrata: ";
+        cout << "Inserisci 'U' se il movimento e' un'uscita oppure 'E' se e' un'entrata: ";
         cin >> s;
         portaMaiuscolo (s);
         if (s!='U' && s!='E')
@@ -243,16 +245,74 @@ void portaMaiuscolo (char &lettera){
 void eliminazione (Spesa &spesa){
     ifstream file("spese.txt");
     if (!file) {
-        cout << "Errore nell'aprire il file per la lettura." << endl;
+        cout<<"Errore nell'aprire il file per la lettura."<<endl;
         return;
     }
 
-    string sceltaCat;
-    string riga;
+    string sceltaCat, tipo;
+    double sceltaPrezzo;
+    char s;
 
+    cin.ignore();
 
-    do{
-        cout<<"Inserisci la categoria della spesa da eliminare: ";
+    //Categoria
+    do {
+        cout<<"Inserisci la categoria del movimento da eliminare: ";
         getline(cin, sceltaCat);
+        if (sceltaCat.empty())
+            cout<<"La categoria non puo' essere vuota. Riprova."<<endl;
+    } while (sceltaCat.empty());
+
+    //Prezzo
+    do{
+        cout<<"Inserisci il prezzo del movimento da eliminare: ";
+        cin>>sceltaPrezzo;
+        if(sceltaPrezzo<=0)
+            cout<<"Inserimento errato...riprova."<<endl;
+    }while(sceltaPrezzo<=0);
+
+    //Tipo
+    do {
+        cout <<"La spesa da eliminare e' un'entrata (E) o un'uscita (U)?";
+        cin>>s;
+        portaMaiuscolo(s);
+        if (s!='E' && s!='U')
+            cout<<"Inserimento errato...riprova."<<endl;
+    } while (s!='E' && s!='U');
+
+    if (s=='E')
+        tipo="entrata.";
+    else
+        tipo="uscita.";
+
+    ofstream temp("temp.txt");
+    string riga;
+    bool movimentoTrovato=false;
+
+    while (getline(file, riga)) {
+        size_t posPrezzo = riga.find("prezzo: ");
+        size_t posTipo = riga.find("; ", posPrezzo);
+        string prezzoStr = riga.substr(posPrezzo + 8, posTipo - (posPrezzo + 8));
+        double prezzoLetto = atof(prezzoStr.c_str());
+
+        if (riga.find("Categoria: " + sceltaCat) != string::npos && fabs(prezzoLetto - sceltaPrezzo) < 0.01 && riga.find(tipo) != string::npos && !movimentoTrovato) {
+            movimentoTrovato = true;
+            continue;
+        }
+
+        temp << riga << endl;
     }
+
+    file.close();
+    temp.close();
+
+    remove("spese.txt");
+    rename("temp.txt", "spese.txt");
+
+    if (movimentoTrovato)
+        cout << "Movimento eliminato correttamente." << endl;
+    else
+        cout << "Movimento non trovato." << endl;
 }
+
+
