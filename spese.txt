@@ -1,0 +1,3 @@
+Categoria: Alimentari; prezzo: 120.52; uscita.
+Categoria: Stipendio; prezzo: 2000; entrata.
+Categoria: svago; prezzo: 500; uscita.
