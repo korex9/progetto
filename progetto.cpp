@@ -6,15 +6,13 @@
 
 using namespace std;
 
-// Struttura per rappresentare una spesa
 struct Spesa {
-    string categoria;  // Categoria della spesa (es. alimentari, trasporti)
-    double prezzo;     // Prezzo della spesa
-    bool entrata;      // Flag per indicare se la spesa è un'entrata
-    bool uscita;       // Flag per indicare se la spesa è un'uscita
+    string categoria;
+    double prezzo;
+    bool entrata;
+    bool uscita;
 };
 
-// Dichiarazione delle funzioni
 void menu (int &s);  // Funzione per visualizzare il menu delle operazioni
 void fSwitch (int s, Spesa &spesa);  // Funzione per eseguire l'operazione scelta
 void richiestaProdotto(Spesa &spesa);  // Funzione per richiedere i dati di una spesa e salvarli nel file di testo
@@ -29,35 +27,32 @@ bool contiene(const string& str, const string& sottostringa);// Funzione che ver
 string toLower(const string& str);// Funzione per convertire una stringa da maiuscolo a minuscolo
 
 int main(){
-    Spesa spesa;  // Crea una variabile per memorizzare una spesa nella struct
-    int scelta=0;  // Variabile per memorizzare la scelta dell'utente
+    Spesa spesa; 
+    int scelta=0;
 
-    // Ciclo per mostrare il menu dopo ogni operazione conclusa
     do{
-        menu (scelta);  // Mostra il menu delle operazioni
-        fSwitch(scelta, spesa);  // Esegue l'operazione scelta
-    }while(scelta!=0);  // Continua finché l'utente non sceglie di uscire
+        menu (scelta);
+        fSwitch(scelta, spesa);
+    }while(scelta!=0);
 
     return 0;
 }
 
 // Funzione per richiedere i dati di una nuova spesa e salvarli nel file di testo
 void richiestaProdotto(Spesa &spesa){
-    char s;  // Variabile per memorizzare l'input dell'utente
+    char s;
     string nomeFile = "spese.txt";
-    ofstream file(nomeFile, ios::app);  // Apre il file in modalità append (aggiunta alla fine)
+    ofstream file(nomeFile, ios::app);  // Apre il file in modalità append (sposta il cursore alla fine)
 
-    // Verifica che il file sia stato aperto correttamente
     if (!file) {
         cout<< "Errore nell'apertura del file." << endl;
         return;
     }
 
-    cin.ignore();  // Pulisce il buffer del cin
+    cin.ignore();
     cout << "Inserisci la categoria della spesa: ";
-    getline(cin, spesa.categoria);  // Acquisisce la categoria della spesa e la salva nella struct
+    getline(cin, spesa.categoria);
 
-    // Richiede e verifica l'inserimento di un prezzo valido
     do{
         cout << "Inserisci il prezzo della spesa: ";
         cin >> spesa.prezzo;
@@ -65,25 +60,22 @@ void richiestaProdotto(Spesa &spesa){
             cout << "Inserimento errato...riprovare." << endl;
     }while(spesa.prezzo <= 0);
 
-    // Richiede se la spesa è un'entrata o un'uscita e verifica che l'inserimento sia valido
     do{
         cout << "Inserisci 'U' per uscita oppure 'E' per entrata: ";
         cin >> s;
-        if(islower(s))  // Verifica se la lettera inserita è minuscola
-            portaMaiuscolo(s);  // Converte la lettera inserita in maiuscolo
+        if(islower(s)) 
+            portaMaiuscolo(s);
         if (s != 'U' && s != 'E')
             cout << "Inserimento errato...riprovare!" << endl;
     }while (s != 'U' && s != 'E');
 
-    // Imposta i flag per entrata o uscita
     spesa.uscita = (s == 'U');
     spesa.entrata = !spesa.uscita;
 
-    // Scrive i dati della spesa nel file
     file << "Categoria: " << spesa.categoria << "; prezzo: " << spesa.prezzo << "; ";
     file << (spesa.uscita ? "uscita." : "entrata.") << endl;
 
-    file.close();  // Chiude il file
+    file.close();
 }
 
 // Funzione per visualizzare il menu delle operazioni disponibili
@@ -98,7 +90,7 @@ void menu (int &s){
     cout << "7- Reset del file di testo." << endl;
     cout << "0- Esci." << endl;
     cout << "Inserire un numero per effettuare un'operazione: ";
-    cin >> s;  // Acquisisce la scelta dell'utente
+    cin >> s;
     cout << endl;
 }
 
@@ -129,24 +121,23 @@ void fSwitch (int s, Spesa &spesa){
         break;
     default:
         if(s != 0)
-            cout << "Inserimento errato...riprovare." << endl;  // Messaggio di errore per scelta non valida
+            cout << "Inserimento errato...riprovare." << endl;
         break;
     }
 }
 
 // Funzione per stampare il totale delle entrate e uscite
 void stampaEU(Spesa &spesa) {
-    // Apre il file di testo in modalità lettura
+    // Apre il file in modalità lettura
     ifstream file("spese.txt");
 
-    // Verifica la corretta apertura del file di testo
     if (!file) {
         cout << "Errore nell'aprire il file per la lettura." << endl;
         return;
     }
 
-    string riga; // Variabile per leggere ogni riga del file
-    double totaleEntrate = 0, totaleUscite = 0; // Variabili per memorizzare le entrate e le uscite totali
+    string riga;
+    double totaleEntrate = 0, totaleUscite = 0;
 
     // Legge ogni riga del file e calcola il totale di entrate e uscite
     while (getline(file, riga)) {
@@ -170,27 +161,25 @@ void stampaEU(Spesa &spesa) {
 
 // Funzione per stampare il totale delle entrate e uscite di una categoria specifica
 void stampaEUCat(Spesa &spesa) {
-    // Apre il file "spese.txt" in modalità lettura
+    // Apre il file in modalità lettura
     ifstream file("spese.txt");
 
-    // Verifica la corretta apertura del file di testo 
     if (!file) {
         cout << "Errore nell'apertura del file." << endl;
         return;
     }
 
-    string categoria;  // Variabile per memorizzare la categoria da cercare
-    double totale = 0.0;  // Variabile per accumulare il totale delle spese della categoria
-    string riga;   // Variabile per leggere ogni riga del file
+    string categoria;
+    double totale = 0.0; 
+    string riga;
 
     // Richiede all'utente di inserire la categoria da cercare
     cout << "Inserisci la categoria per cui vuoi stampare il totale delle spese: ";
-    cin.ignore();  // Pulisce il buffer del cin
-    getline(cin, categoria);  // Acquisisce la categoria da stampare
+    cin.ignore();
+    getline(cin, categoria);
 
-    // Converte la categoria in minuscolo per rendere il confronto case-insensitive
     string categoriaLower = toLower(categoria);
-    bool trovato = false;  // Variabile per verificare se sono state trovate spese per quella categoria
+    bool trovato = false;
 
     // Legge il file riga per riga
     while (getline(file, riga)) {
@@ -201,70 +190,63 @@ void stampaEUCat(Spesa &spesa) {
 
         // Se entrambe le parole "Categoria: " e "prezzo: " esistono nella riga
         if (inizioCategoria >= 0 && inizioCategoria < riga.length() && inizioPrezzo >= 0 && inizioPrezzo < riga.length()) {
-            // Estrae la categoria dalla riga (la parte dopo "Categoria: ")
+            // Estrae la categoria dalla riga dopo "Categoria: "
             string cat = riga.substr(inizioCategoria + 10, riga.find(';', inizioCategoria) - (inizioCategoria + 10));
             // Rimuove eventuali spazi all'inizio della categoria
             while (!cat.empty() && cat[0] == ' ')  // Controlla se la categoria inizia con spazi
-                cat.erase(0, 1);  // Rimuove il primo carattere (spazio) finché ci sono spazi
-            // Estrae il prezzo dalla riga (la parte dopo "prezzo: ")
+                cat.erase(0, 1);  // Rimuove il primo carattere che è uno spazio finché ci sono spazi
+            // Estrae il prezzo dalla riga dopo "prezzo: "
             string prezzoStr = riga.substr(inizioPrezzo + 8, riga.find(';', inizioPrezzo) - (inizioPrezzo + 8));
-            // Converte il prezzo da stringa a numero decimale (double)
+            // Converte il prezzo da stringa a numero decimale di tipo double
             double prezzoLetto = stod(prezzoStr);
 
-            // Confronta la categoria letta con quella fornita dall'utente (case-insensitive)
             if (toLower(cat) == categoriaLower) {
-                trovato = true;  // Se troviamo la categoria, segnamo che abbiamo trovato almeno una spesa
-                totale += prezzoLetto;  // Aggiunge il prezzo alla somma totale
+                trovato = true; 
+                totale += prezzoLetto; 
             }
         }
     }
 
-    // Chiude il file dopo aver terminato la lettura
     file.close();
 
-    // Se sono state trovate spese per la categoria, stampa il totale
     if (trovato) {
         cout << "Il totale delle spese per la categoria '" << categoria << "' e': " << totale << " euro." << endl;
     } else {
-        // Se non sono state trovate spese per quella categoria, informa l'utente
         cout << "Non sono state trovate spese per la categoria '" << categoria << "'." << endl;
     }
 }
 
 // Funzione per convertire una lettera in maiuscolo
 void portaMaiuscolo (char &lettera){
-    lettera=toupper(lettera);  // La converte in maiuscolo
+    lettera=toupper(lettera);
 }
 
 // Funzione per eliminare un movimento finanziario dal file
 void eliminaMovimento() {
-    // Apre il file di testo in modalità lettura
     ifstream fileIn("spese.txt");
-    // Apre un file temporaneo per scrivere i dati modificati
     ofstream fileOut("temp.txt");
 
-    // Se uno dei file non è stato aperto correttamente, mostra un errore
+
     if (!fileIn || !fileOut) {
         cout << "Errore nell'apertura del file." << endl;
-        return;  // Interrompe l'esecuzione della funzione se c'è un errore nell'aprire i file
+        return; 
     }
 
-    string categoria;  // Variabile per memorizzare la categoria della spesa che l'utente vuole eliminare
-    double prezzo;     // Variabile per memorizzare il prezzo della spesa che l'utente vuole eliminare
-    string riga;       // Variabile per leggere ogni riga del file
+    string categoria;  
+    double prezzo;     
+    string riga;       
 
     // Richiede all'utente di inserire la categoria della spesa da eliminare
-    cin.ignore();  // Pulisce il buffer del cin
+    cin.ignore();
     cout << "Inserisci la categoria da eliminare: ";
-    getline(cin, categoria);  // Acquisisce la categoria da eliminare
+    getline(cin, categoria);
 
     // Richiede all'utente di inserire il prezzo della spesa da eliminare
     cout << "Inserisci il prezzo da eliminare: ";
     cin >> prezzo;
 
-    // Converte la categoria in minuscolo per rendere il confronto case-insensitive
     string categoriaLower = toLower(categoria);
-    bool trovato = false;  // Variabile per segnare se il movimento è stato trovato ed eliminato
+    bool trovato = false;
 
     // Legge il file riga per riga
     while (getline(fileIn, riga)) {
@@ -275,21 +257,21 @@ void eliminaMovimento() {
 
         // Se entrambe le parole "Categoria: " e "prezzo: " esistono nella riga
         if (inizioCategoria >= 0 && inizioCategoria < riga.length() && inizioPrezzo >= 0 && inizioPrezzo < riga.length()) {
-            // Estrae la categoria dalla riga (la parte dopo "Categoria: ")
+            // Estrae la categoria dalla riga dopo "Categoria: "
             string cat = riga.substr(inizioCategoria + 10, riga.find(';', inizioCategoria) - (inizioCategoria + 10));
             // Rimuove eventuali spazi all'inizio della categoria
             while (!cat.empty() && cat[0] == ' ')  // Controlla se la categoria inizia con spazi
-                cat.erase(0, 1);  // Rimuove il primo carattere (spazio) finché ci sono spazi
-            // Estrae il prezzo dalla riga (la parte dopo "prezzo: ")
+                cat.erase(0, 1);  // Rimuove il primo carattere che è uno spazio finché ci sono spazi
+            // Estrae il prezzo dalla riga dopo "prezzo: "
             string prezzoStr = riga.substr(inizioPrezzo + 8, riga.find(';', inizioPrezzo) - (inizioPrezzo + 8));
-            // Converte il prezzo da stringa a numero decimale (double)
+            // Converte il prezzo da stringa a numero decimale di tipo double
             double prezzoLetto = stod(prezzoStr);
 
             /* Controlla se la categoria letta corrisponde a quella che l'utente vuole eliminare
             e se il prezzo corrisponde a quello fornito dall'utente. */
             if (toLower(cat) == categoriaLower && fabs(prezzoLetto - prezzo) < 0.01) {
                 trovato = true;  // Se troviamo una corrispondenza, segniamo che il movimento è stato trovato
-                continue;  // Saltando questa iterazione, quindi non scriviamo la riga nel file di output
+                continue;
             }
         }
 
@@ -317,20 +299,19 @@ void eliminaMovimento() {
 void cercaMovimento() {
     // Apre il file di testo in modalità lettura
     ifstream file("spese.txt");
-    // Avvisa l'utente se il file non si è aperto correttamente
     if (!file) {
         cout << "Errore nell'apertura del file." << endl;
         return;
     }
 
-    string categoria; // Stringa per salvare la categoria scelta dall'utente
+    string categoria;
     cout << "Inserisci la categoria da cercare: ";
-    cin.ignore(); // Pulisce il buffer del cin
-    getline(cin, categoria); // Acquisisce la categoria del movimento da cercare
-    string categoriaLower = toLower(categoria); //Porta la categoria in minuscolo per essere case-insensitive
+    cin.ignore();
+    getline(cin, categoria); 
+    string categoriaLower = toLower(categoria); 
 
-    string riga; // Variabile per leggere ogni riga del file
-    bool trovata = false; // Variabile per segnare se il movimento è stato trovato
+    string riga;
+    bool trovata = false;
 
     // Legge il file e stampa i movimenti che corrispondono alla categoria cercata
     while (getline(file, riga)) {
@@ -355,15 +336,14 @@ void cercaMovimento() {
 void stampaPercentuali() {
     // Apre il file di testo in modalità lettura
     ifstream file("spese.txt");
-    // Se il file non è stato aperto correttamente, mostra un errore
     if (!file) {
         cout << "Errore nell'apertura del file." << endl;
         return;
     }
 
-    string riga; // Variabile per leggere ogni riga del file
-    double entrate = 0, uscite = 0; // Variabili per memorizzare il totale delle entrate e delle uscite
-    double totale=0; // Variabile per memorizzare il totale 
+    string riga;
+    double entrate = 0, uscite = 0;
+    double totale=0;
 
     // Legge il file e calcola il totale di entrate e uscite
     while (getline(file, riga)) {
@@ -379,7 +359,6 @@ void stampaPercentuali() {
     }
 
     totale = entrate + uscite; // Variabile per memorizzare il totale 
-    // Se non è stato trovato nessun movimento, viene informato l'utente
     if (totale == 0) {
         cout << "Nessun movimento registrato." << endl;
         return;
@@ -392,7 +371,7 @@ void stampaPercentuali() {
 
 // Funzione per resettare il file delle spese
 void resetFile() {
-    ofstream file("spese.txt", ios::trunc);  // Apre il file in modalità di sovrascrittura
+    ofstream file("spese.txt", ios::trunc);  // Apre il file in modalità di sovrascrittura (trunc serve a tronacre il contenuto)
     if (!file) {
         cout << "Errore nel reset del file." << endl;
         return;
