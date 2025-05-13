@@ -238,7 +238,7 @@ void portaMaiuscolo (char &lettera){
 
 // Funzione per eliminare un movimento finanziario dal file
 void eliminaMovimento() {
-    // Apre il file di spese in modalità lettura
+    // Apre il file di testo in modalità lettura
     ifstream fileIn("spese.txt");
     // Apre un file temporaneo per scrivere i dati modificati
     ofstream fileOut("temp.txt");
@@ -315,8 +315,9 @@ void eliminaMovimento() {
 
 // Funzione per cercare e stampare i movimenti di una categoria
 void cercaMovimento() {
+    // Apre il file di testo in modalità lettura
     ifstream file("spese.txt");
-    // Avvisa l'utente se il file non si è aperto
+    // Avvisa l'utente se il file non si è aperto correttamente
     if (!file) {
         cout << "Errore nell'apertura del file." << endl;
         return;
@@ -325,11 +326,11 @@ void cercaMovimento() {
     string categoria; // Stringa per salvare la categoria scelta dall'utente
     cout << "Inserisci la categoria da cercare: ";
     cin.ignore(); // Pulisce il buffer del cin
-    getline(cin, categoria);
+    getline(cin, categoria); // Acquisisce la categoria del movimento da cercare
     string categoriaLower = toLower(categoria); //Porta la categoria in minuscolo per essere case-insensitive
 
-    string riga;
-    bool trovata = false;
+    string riga; // Variabile per leggere ogni riga del file
+    bool trovata = false; // Variabile per segnare se il movimento è stato trovato
 
     // Legge il file e stampa i movimenti che corrispondono alla categoria cercata
     while (getline(file, riga)) {
@@ -344,21 +345,25 @@ void cercaMovimento() {
             }
         }
     }
-
+    
+    // Se non è stato trovato nessun movimento, viene informato l'utente
     if (!trovata)
         cout << "Nessun movimento trovato per la categoria." << endl;
 }
 
 // Funzione per stampare le percentuali di entrate e uscite rispetto al totale
 void stampaPercentuali() {
+    // Apre il file di testo in modalità lettura
     ifstream file("spese.txt");
+    // Se il file non è stato aperto correttamente, mostra un errore
     if (!file) {
         cout << "Errore nell'apertura del file." << endl;
         return;
     }
 
-    string riga;
-    double entrate = 0, uscite = 0;
+    string riga; // Variabile per leggere ogni riga del file
+    double entrate = 0, uscite = 0; // Variabili per memorizzare il totale delle entrate e delle uscite
+    double totale=0; // Variabile per memorizzare il totale 
 
     // Legge il file e calcola il totale di entrate e uscite
     while (getline(file, riga)) {
@@ -373,7 +378,8 @@ void stampaPercentuali() {
         }
     }
 
-    double totale = entrate + uscite;
+    totale = entrate + uscite; // Variabile per memorizzare il totale 
+    // Se non è stato trovato nessun movimento, viene informato l'utente
     if (totale == 0) {
         cout << "Nessun movimento registrato." << endl;
         return;
@@ -391,7 +397,7 @@ void resetFile() {
         cout << "Errore nel reset del file." << endl;
         return;
     }
-    cout << "File svuotato con successo." << endl;
+    cout << "File resettato con successo." << endl;
 }
 
 // Funzione che verifica se una stringa contiene una sottostringa
